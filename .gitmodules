@@ -1,0 +1,3 @@
+[submodule "spacescape"]
+	path = spacescape
+	url = https://github.com/thomas-rooty/spacescape
