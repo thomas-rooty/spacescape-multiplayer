@@ -37,7 +37,6 @@ io.on('connection', (socket) => {
   socket.on('move', (newPosition) => {
     const astronaut = astronauts.find(a => a.id === socket.id)
     astronaut.position = newPosition
-    console.log('ID: ' + socket.id + ' moved to ' + newPosition)
     io.emit('astronauts', astronauts)
   })
 
