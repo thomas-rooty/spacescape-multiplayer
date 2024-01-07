@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
     const astronaut = astronauts.find(a => a.id === socket.id)
     astronaut.position = newPosition
     console.log('ID: ' + socket.id + ' moved to ' + newPosition)
+    io.emit('astronauts', astronauts)
   })
 
   socket.on('disconnect', () => {
