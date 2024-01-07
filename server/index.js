@@ -11,7 +11,7 @@ io.listen(3001)
 io.on('connection', (socket) => {
   console.log('a user connected')
 
-  socket.emit('message', 'Hello dude!')
+  socket.emit('hello')
 
   socket.on('disconnect', () => {
     console.log('a user disconnected')
