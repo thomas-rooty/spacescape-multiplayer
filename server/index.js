@@ -11,7 +11,11 @@ io.listen(3001)
 const astronauts = []
 
 const generateRandomPosition = () => {
-  return [Math.random() * 3, 0, Math.random() * 3]
+  // I want it between ['-0.45', '0.07', '24.37'] and ['0.46', '0.07', '25.37']
+  const x = Math.random() * (0.46 - -0.45) + -0.45
+  const y = 0.07
+  const z = Math.random() * (25.37 - 24.37) + 24.37
+  return [x, y, z]
 }
 
 const generateRandomHexColor = () => {
@@ -28,6 +32,13 @@ io.on('connection', (socket) => {
   })
 
   io.emit('astronauts', astronauts)
+
+  // Listen for astronaut position updates
+  socket.on('move', (newPosition) => {
+    const astronaut = astronauts.find(a => a.id === socket.id)
+    astronaut.position = newPosition
+    console.log('ID: ' + socket.id + ' moved to ' + newPosition)
+  })
 
   socket.on('disconnect', () => {
     console.log('user disconnected')
