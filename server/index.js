@@ -2,11 +2,11 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: ["http://localhost:3000", "https://spacescape.vercel.app"],
+    origin: "https://spacescape.vercel.app",
   },
 });
 
-io.listen(3001);
+io.listen(process.env.PORT || 3000);
 
 const astronauts = [];
 
