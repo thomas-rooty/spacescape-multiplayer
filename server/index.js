@@ -2,11 +2,11 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: "https://spacescape.vercel.app",
+    origin: ["https://spacescape.vercel.app", "http://localhost:3000"],
   },
 });
 
-io.listen(process.env.PORT || 3000);
+io.listen(process.env.PORT || 3001);
 
 const astronauts = [];
 
@@ -23,13 +23,18 @@ const generateRandomHexColor = () => {
 };
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("User ID: " + socket.id + " connected");
 
   astronauts.push({
     id: socket.id,
     position: generateRandomPosition(),
     headColor: generateRandomHexColor(),
     isMoving: false,
+    lookingAt: {
+      x: 0,
+      y: 0,
+      z: 31
+    },
   });
 
   io.emit("astronauts", astronauts);
@@ -44,12 +49,13 @@ io.on("connection", (socket) => {
     ) {
       astronaut.position = data.newPosition;
       astronaut.isMoving = data.isMoving;
+      astronaut.lookingAt = data.lookingAt;
       io.emit("astronauts", astronauts);
     }
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    console.log("User ID: " + socket.id + " disconnected");
     // Remove astronaut from array and emit new array to all clients
     astronauts.splice(
       astronauts.findIndex((astronaut) => astronaut.id === socket.id),
