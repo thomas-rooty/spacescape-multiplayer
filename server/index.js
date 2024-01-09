@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
     id: socket.id,
     position: generateRandomPosition(),
     headColor: generateRandomHexColor(),
-    isMoving: false,
+    animation: 'CharacterArmature|Idle',
     lookingAt: {
       x: 0,
       y: 0,
@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
       data.newPosition.length === 3
     ) {
       astronaut.position = data.newPosition;
-      astronaut.isMoving = data.isMoving;
+      astronaut.animation = data.animation;
       astronaut.lookingAt = data.lookingAt;
       io.emit("astronauts", astronauts);
     }
