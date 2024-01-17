@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { encode, decode } from "@msgpack/msgpack";
+import { encode } from "@msgpack/msgpack";
 
 const io = new Server({
   cors: {
@@ -58,6 +58,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User ID: " + socket.id + " disconnected");
     astronauts.delete(socket.id);
-    io.emit("astronauts", Array.from(astronauts.values()));
+    const encoded = encode(Array.from(astronauts.values()));
+    io.emit("astronauts", encoded);
   });
 });
