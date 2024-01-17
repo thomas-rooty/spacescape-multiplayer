@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import { encode, decode } from "@msgpack/msgpack";
 
 const io = new Server({
   cors: {
@@ -47,7 +48,8 @@ io.on("connection", (socket) => {
         astronaut.position = data.newPosition;
         astronaut.animation = data.animation;
         astronaut.lookingAt = data.lookingAt;
-        io.emit("astronauts", Array.from(astronauts.values()));
+        const encoded = encode(Array.from(astronauts.values()));
+        io.emit("astronauts", encoded);
         lastUpdateTime = now;
       }
     }

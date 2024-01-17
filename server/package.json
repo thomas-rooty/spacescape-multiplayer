@@ -5,6 +5,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^3.0.0-beta2",
     "nodemon": "^3.0.2",
     "socket.io": "^4.7.3"
   }
